@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
-import { FloatingNav } from "@/components/layout/floating-nav";
+import { NavShell } from "@/components/layout/nav-shell";
 import { MainShell } from "@/components/layout/main-shell";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { TutorWidget } from "@/components/tutor/tutor-widget";
@@ -72,9 +72,10 @@ export default function RootLayout({
         <ThemeProvider>
           <AnalyticsProvider />
           <SiteJsonLd />
-          <FloatingNav />
-          <MainShell>{children}</MainShell>
-          <SiteFooter />
+          <NavShell>
+            <MainShell>{children}</MainShell>
+            <SiteFooter />
+          </NavShell>
           <TutorWidget />
         </ThemeProvider>
       </body>

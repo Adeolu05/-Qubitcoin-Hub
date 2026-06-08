@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavMenu } from "@/components/layout/nav-menu-context";
 import { cn } from "@/lib/utils";
 
 const primaryNav = [
@@ -51,7 +52,7 @@ function MenuIcon({ open }: { open: boolean }) {
 }
 
 export function MobileNav() {
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useNavMenu();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -70,19 +71,19 @@ export function MobileNav() {
 
   useEffect(() => {
     setOpen(false);
-  }, [pathname]);
+  }, [pathname, setOpen]);
 
   return (
     <div className="xl:hidden">
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-label={open ? "Close menu" : "Open menu"}
         className={cn(
-          "menu-toggle-btn nav-icon-btn relative flex h-8 w-8 items-center justify-center rounded-full transition",
+          "menu-toggle-btn nav-icon-btn relative flex h-9 w-9 items-center justify-center rounded-full transition",
           open
-            ? "bg-foreground text-background shadow-sm"
+            ? "menu-toggle-btn--open"
             : "text-foreground hover:bg-foreground/10",
         )}
       >
@@ -97,7 +98,7 @@ export function MobileNav() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="mobile-menu-backdrop fixed inset-0 z-40 bg-black/50"
+              className="mobile-menu-backdrop fixed inset-0 z-40"
               onClick={() => setOpen(false)}
               aria-hidden="true"
             />
