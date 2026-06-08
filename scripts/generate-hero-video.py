@@ -14,9 +14,9 @@ from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "public" / "hero-bg.mp4"
-POSTER = ROOT / "public" / "hero-poster.webp"
 
-W, H = 1920, 1080
+# 1088 height is divisible by 16 (H.264 macro block) — avoids encoder resize blur
+W, H = 1920, 1088
 FPS = 24
 DURATION = 10
 BRAND = (26, 188, 156)
@@ -131,11 +131,16 @@ def main() -> None:
         fps=FPS,
         codec="libx264",
         pixelformat="yuv420p",
-        output_params=["-crf", "18", "-movflags", "+faststart"],
+        output_params=[
+            "-crf",
+            "15",
+            "-preset",
+            "slow",
+            "-movflags",
+            "+faststart",
+        ],
     )
-    Image.fromarray(frames[0]).save(POSTER, "WEBP", quality=88)
-    print(f"Wrote {OUT} ({len(frames)} frames @ {FPS}fps)")
-    print(f"Wrote {POSTER}")
+    print(f"Wrote {OUT} ({len(frames)} frames @ {FPS}fps, {W}x{H})")
 
 
 if __name__ == "__main__":
