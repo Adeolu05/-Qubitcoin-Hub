@@ -161,10 +161,32 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+body[data-menu-open] header {
+  z-index: 60;
+}
+
 body[data-menu-open] .floating-nav-pill {
+  background: var(--card);
+  border-color: var(--border);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   box-shadow:
     0 0 0 1px var(--border),
-    0 10px 25px rgba(0, 0, 0, 0.12);
+    0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+body[data-menu-open] .floating-nav-pill .nav-brand-wordmark {
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+body[data-menu-open] .floating-nav-pill .theme-toggle-btn {
+  color: var(--foreground);
+}
+
+body[data-menu-open] .floating-nav-pill .menu-toggle-btn[aria-expanded="true"] {
+  background: var(--foreground);
+  color: var(--background);
 }
 
 body[data-menu-open] main,

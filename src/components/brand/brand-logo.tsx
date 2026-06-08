@@ -39,7 +39,7 @@ export function BrandLogo({
       {showWordmark && (
         <span
           className={cn(
-            "font-display font-bold tracking-tight text-foreground",
+            "nav-brand-wordmark font-display font-bold tracking-tight text-foreground",
             compact ? "text-[15px]" : "text-lg font-semibold",
             wordmarkClassName,
           )}

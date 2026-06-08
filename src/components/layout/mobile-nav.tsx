@@ -24,21 +24,25 @@ const secondaryNav = [
 
 function MenuIcon({ open }: { open: boolean }) {
   const transition = { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const };
+  const barClass = cn(
+    "menu-toggle-bar absolute block w-4 rounded-full",
+    open ? "h-[2px] bg-current" : "h-[1.5px] bg-foreground",
+  );
 
   return (
     <div className="relative flex h-4 w-4 flex-col items-center justify-center" aria-hidden="true">
       <motion.span
-        className="absolute block h-[1.5px] w-4 rounded-full bg-foreground"
+        className={barClass}
         animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -5 }}
         transition={transition}
       />
       <motion.span
-        className="absolute block h-[1.5px] w-4 rounded-full bg-foreground"
+        className={barClass}
         animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
         transition={transition}
       />
       <motion.span
-        className="absolute block h-[1.5px] w-4 rounded-full bg-foreground"
+        className={barClass}
         animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 5 }}
         transition={transition}
       />
@@ -76,10 +80,10 @@ export function MobileNav() {
         aria-expanded={open}
         aria-label={open ? "Close menu" : "Open menu"}
         className={cn(
-          "nav-icon-btn relative flex h-8 w-8 items-center justify-center rounded-full transition",
+          "menu-toggle-btn nav-icon-btn relative flex h-8 w-8 items-center justify-center rounded-full transition",
           open
-            ? "bg-accent/10 ring-2 ring-accent/40"
-            : "hover:bg-foreground/5",
+            ? "bg-foreground text-background shadow-sm"
+            : "text-foreground hover:bg-foreground/10",
         )}
       >
         <MenuIcon open={open} />
