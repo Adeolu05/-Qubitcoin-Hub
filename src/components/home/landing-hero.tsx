@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 const partners = [
@@ -10,38 +11,61 @@ const partners = [
   { name: "MIT iQuHACK", href: "https://iquhack.mit.edu/", weight: "font-medium" },
 ] as const;
 
+function usePreferStaticHero() {
+  const [preferStatic, setPreferStatic] = useState(false);
+
+  useEffect(() => {
+    const mobile = window.matchMedia("(max-width: 768px)");
+    const reducedData = window.matchMedia("(prefers-reduced-data: reduce)");
+    const update = () => setPreferStatic(mobile.matches && reducedData.matches);
+    update();
+    mobile.addEventListener("change", update);
+    reducedData.addEventListener("change", update);
+    return () => {
+      mobile.removeEventListener("change", update);
+      reducedData.removeEventListener("change", update);
+    };
+  }, []);
+
+  return preferStatic;
+}
+
 export function LandingHero() {
   const [videoFailed, setVideoFailed] = useState(false);
+  const preferStatic = usePreferStaticHero();
+  const showVideo = !videoFailed && !preferStatic;
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-[#050505]">
-      {!videoFailed && (
+    <section className="relative min-h-[100dvh] w-full overflow-hidden bg-[#050505]">
+      {showVideo ? (
         <video
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
+          poster="/hero-poster.webp"
           aria-label="Decorative background video showing quantum-themed visuals"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full transform-gpu object-cover"
           onError={() => setVideoFailed(true)}
         >
           <source src="/hero-bg.mp4" type="video/mp4" />
         </video>
+      ) : (
+        <>
+          <Image
+            src="/hero-poster.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover"
+            aria-hidden="true"
+          />
+          <div className="hero-poster-glow absolute inset-0" aria-hidden="true" />
+        </>
       )}
 
-      {videoFailed && (
-        <div
-          className="absolute inset-0 bg-[#050505]"
-          style={{
-            backgroundImage:
-              "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(26,188,156,0.15), transparent)",
-          }}
-          aria-hidden="true"
-        />
-      )}
-
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/60" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/60 max-md:from-black/5 max-md:via-black/15 max-md:to-black/50" />
 
       <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center">
         <div className="mb-[100px] flex max-w-[420px] flex-col items-center px-6 text-center">

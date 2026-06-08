@@ -22,7 +22,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         type="button"
         aria-label="Theme"
         className={cn(
-          "h-8 w-8 rounded-full border border-border bg-card",
+          "nav-icon-btn flex h-8 w-8 items-center justify-center rounded-full",
           className,
         )}
       />
@@ -40,7 +40,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       aria-label={`Theme: ${current}. Click for ${next.label}.`}
       title={`${resolvedTheme === "dark" ? "Dark" : "Light"} · ${themes.find((t) => t.value === current)?.label}`}
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition hover:bg-foreground/5 hover:text-foreground",
+        "nav-icon-btn flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition hover:bg-foreground/5 hover:text-foreground",
         className,
       )}
     >

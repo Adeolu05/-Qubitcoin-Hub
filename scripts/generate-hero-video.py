@@ -14,8 +14,9 @@ from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "public" / "hero-bg.mp4"
+POSTER = ROOT / "public" / "hero-poster.webp"
 
-W, H = 1280, 720
+W, H = 1920, 1080
 FPS = 24
 DURATION = 10
 BRAND = (26, 188, 156)
@@ -33,8 +34,9 @@ def draw_frame(t: float) -> np.ndarray:
     # Ambient radial glow (slow pulse)
     pulse = 0.5 + 0.5 * math.sin(t * 0.8)
     cx, cy = W * 0.5, H * 0.42
-    for r in range(420, 0, -18):
-        alpha = int(12 * pulse * (1 - r / 420))
+    glow_max = int(min(W, H) * 0.55)
+    for r in range(glow_max, 0, -int(glow_max / 24)):
+        alpha = int(12 * pulse * (1 - r / glow_max))
         draw.ellipse(
             (cx - r, cy - r * 0.65, cx + r, cy + r * 0.65),
             fill=(BRAND[0], BRAND[1], BRAND[2], alpha),
@@ -43,15 +45,15 @@ def draw_frame(t: float) -> np.ndarray:
     # Perspective grid floor
     horizon = int(H * 0.38)
     for i in range(-20, 21):
-        x_base = W / 2 + i * 55
+        x_base = W / 2 + i * (W * 0.043)
         draw.line(
-            [(x_base, horizon), (W / 2 + i * 180, H)],
+            [(x_base, horizon), (W / 2 + i * (W * 0.14), H)],
             fill=(BRAND[0], BRAND[1], BRAND[2], 18),
             width=1,
         )
     for row in range(12):
         y = horizon + (H - horizon) * (row / 12) ** 1.2
-        x_span = 80 + row * 95
+        x_span = W * 0.062 + row * (W * 0.074)
         draw.line(
             [(W / 2 - x_span, y), (W / 2 + x_span, y)],
             fill=(40, 40, 50, 40),
@@ -67,7 +69,7 @@ def draw_frame(t: float) -> np.ndarray:
 
     for i in range(n_qubits):
         x = margin + i * spacing
-        wave = math.sin(t * 1.4 + i * 0.45) * 14
+        wave = math.sin(t * 1.4 + i * 0.45) * (H * 0.013)
         y = base_y + wave
         nodes.append((x, y))
 
@@ -114,7 +116,7 @@ def draw_frame(t: float) -> np.ndarray:
         (W * 0.1, H * 0.05, W * 0.9, H * 0.95),
         fill=(0, 0, 0, 0),
         outline=(0, 0, 0, 180),
-        width=120,
+        width=int(min(W, H) * 0.11),
     )
     img = Image.alpha_composite(img.convert("RGBA"), vignette).convert("RGB")
 
@@ -129,9 +131,11 @@ def main() -> None:
         fps=FPS,
         codec="libx264",
         pixelformat="yuv420p",
-        output_params=["-crf", "23", "-movflags", "+faststart"],
+        output_params=["-crf", "18", "-movflags", "+faststart"],
     )
+    Image.fromarray(frames[0]).save(POSTER, "WEBP", quality=88)
     print(f"Wrote {OUT} ({len(frames)} frames @ {FPS}fps)")
+    print(f"Wrote {POSTER}")
 
 
 if __name__ == "__main__":

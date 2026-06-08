@@ -3,7 +3,7 @@
 :root {
   --background: #f4f5f7;
   --foreground: #0f1419;
-  --muted: #5c6570;
+  --muted: #4a5568;
   --card: #ffffff;
   --card-hover: #f9fafb;
   --border: rgba(15, 20, 25, 0.1);
@@ -157,12 +157,48 @@ body {
   backdrop-filter: blur(20px) saturate(140%);
 }
 
+.nav-icon-btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body[data-menu-open] .floating-nav-pill {
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
 body[data-menu-open] main,
 body[data-menu-open] footer {
   filter: blur(10px);
   transition: filter 0.25s ease;
   pointer-events: none;
   user-select: none;
+}
+
+.hero-poster-glow {
+  background-image: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    rgba(26, 188, 156, 0.12),
+    transparent 70%
+  );
+  animation: hero-glow-pulse 8s ease-in-out infinite;
+}
+
+@keyframes hero-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-poster-glow {
+    animation: none;
+    opacity: 0.8;
+  }
 }
 
 .quantum-bg {

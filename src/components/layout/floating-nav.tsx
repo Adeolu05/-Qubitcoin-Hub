@@ -23,7 +23,7 @@ export function FloatingNav() {
     <header className="pointer-events-none fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
       <div
         className={cn(
-          "pointer-events-auto flex w-full max-w-[800px] items-center justify-between gap-2",
+          "floating-nav-pill pointer-events-auto flex w-full max-w-[800px] items-center justify-between gap-2",
           "rounded-full border border-border bg-nav-bg py-1.5 pl-4 pr-2 backdrop-blur-md",
           "shadow-lg shadow-black/5 dark:shadow-black/20",
         )}

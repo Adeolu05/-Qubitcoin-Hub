@@ -76,8 +76,10 @@ export function MobileNav() {
         aria-expanded={open}
         aria-label={open ? "Close menu" : "Open menu"}
         className={cn(
-          "relative flex h-8 w-8 items-center justify-center rounded-full transition",
-          open ? "bg-foreground/10" : "hover:bg-foreground/5",
+          "nav-icon-btn relative flex h-8 w-8 items-center justify-center rounded-full transition",
+          open
+            ? "bg-accent/10 ring-2 ring-accent/40"
+            : "hover:bg-foreground/5",
         )}
       >
         <MenuIcon open={open} />
@@ -101,10 +103,10 @@ export function MobileNav() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed left-4 right-4 top-20 z-50 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-border bg-nav-bg shadow-2xl shadow-black/20 backdrop-blur-xl"
+              className="fixed left-4 right-4 top-[calc(1.5rem+3rem+0.5rem)] z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-border/80 bg-card shadow-2xl shadow-black/25"
             >
               <div className="px-4 py-5">
-                <p className="mb-3 text-[11px] font-medium uppercase tracking-wider text-muted">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted">
                   Navigate
                 </p>
                 <div className="space-y-1">
@@ -123,17 +125,17 @@ export function MobileNav() {
                           href={item.href}
                           onClick={() => setOpen(false)}
                           className={cn(
-                            "flex items-center justify-between rounded-xl px-4 py-3 transition",
+                            "flex items-center justify-between rounded-xl px-4 py-3.5 transition",
                             active
                               ? "bg-accent/15 text-foreground"
-                              : "text-nav-foreground hover:bg-foreground/5 hover:text-foreground",
+                              : "text-foreground hover:bg-foreground/5",
                           )}
                         >
                           <div>
-                            <span className="block text-sm font-medium">
+                            <span className="block text-base font-semibold">
                               {item.label}
                             </span>
-                            <span className="mt-0.5 block text-xs text-muted">
+                            <span className="mt-0.5 block text-sm text-muted">
                               {item.desc}
                             </span>
                           </div>
@@ -157,10 +159,10 @@ export function MobileNav() {
                         href={item.href}
                         onClick={() => setOpen(false)}
                         className={cn(
-                          "flex-1 rounded-xl border px-3 py-2.5 text-center text-sm transition",
+                          "flex-1 rounded-xl border px-3 py-2.5 text-center text-sm font-medium transition",
                           active
                             ? "border-cyan-400/30 bg-accent/10 text-foreground"
-                            : "border-border text-muted hover:border-foreground/20 hover:text-foreground",
+                            : "border-border bg-surface-elevated text-foreground hover:border-foreground/20",
                         )}
                       >
                         {item.label}
